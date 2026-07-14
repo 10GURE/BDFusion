@@ -17,10 +17,10 @@
 
 用法示例：
     # 评估 SeAFusion 的结果
-    python evaluate_fusion.py --result_dir ./output --test_dir ./test_imgs
+    python evaluate_fusion.py --result_dir ./experiments/output --test_dir ./data/test_imgs
 
     # 评估其他方法的结果
-    python evaluate_fusion.py --result_dir ./output_methodB --test_dir ./test_imgs
+    python evaluate_fusion.py --result_dir ./output_methodB --test_dir ./data/test_imgs
 """
 
 import argparse
@@ -428,7 +428,7 @@ def main():
     parser = argparse.ArgumentParser(description='通用融合结果量化评估脚本')
     parser.add_argument('--result_dir', type=str, default='./experiments/output',
                         help='融合结果根目录，结构: <result_dir>/<任务类型>/<图像>')
-    parser.add_argument('--test_dir', type=str, default='./test_imgs',
+    parser.add_argument('--test_dir', type=str, default='./data/test_imgs',
                         help='测试数据根目录，结构: <test_dir>/<任务类型>/ir|vi|gt/')
 
     args = parser.parse_args()

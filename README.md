@@ -50,12 +50,33 @@ git clone https://github.com/fundamentalvision/Deformable-DETR.git
 cd Deformable-DETR/models/ops && sh make.sh
 ```
 
-### 2. Download Pretrained Models
+### 2. Download Resources
 
-| Model | Link | Target Path |
-|-------|------|-------------|
-| BDFusion checkpoint | [Google Drive](https://drive.google.com/file/d/1ur9uv_eUWYbvJVdKZbrsu50RVWhpX4x5/view) | `./checkpoint/last.ckpt` |
-| VQ-F4 first stage | [CompVis releases](https://github.com/CompVis/latent-diffusion) | `./models/first_stage_models/vq-f4/model.ckpt` |
+The following files are **not** included in this repository due to size limits.
+Download them and place at the specified paths.
+
+| Resource | Size | Download | Target Path |
+|----------|------|----------|-------------|
+| BDFusion main model | 8.6 GB | [Google Drive](https://drive.google.com/file/d/1_G79pvtnfq_RKLzh3sJ42bsPocnlxICP/view) | `./checkpoint/last.ckpt` |
+| BDFusion distilled model | 5.6 GB | [Google Drive](https://drive.google.com/file/d/1gfAJd5wqgUV_0qYrNC9313gByFELQFhw/view) | `./checkpoint/bdfusion-distill.ckpt` |
+| VQ-F4 first-stage | 722 MB | [CompVis](https://ommer-lab.com/files/latent-diffusion/vq-f4.zip) | `./models/first_stage_models/vq-f4/model.ckpt` |
+| MSRS-BD-F dataset | — | [Google Drive](https://drive.google.com/file/d/1Jne11xdmFLGiAo2qJRteOm6recoevxJ8/view) | `./data/` (extract here) |
+
+After downloading, verify the file structure:
+
+```
+checkpoint/
+├── last.ckpt                  ← main model (8.6G)
+└── bdfusion-distill.ckpt      ← distilled model (5.6G)
+models/
+└── first_stage_models/
+    └── vq-f4/
+        └── model.ckpt         ← VQ-F4 (722M)
+data/
+├── msrs_bd-f/                 ← training dataset
+├── test_imgs/                 ← test images (multi-scene)
+└── test_videos/               ← test video clips (RGB + IR pairs)
+```
 
 ### 3. Run Inference
 

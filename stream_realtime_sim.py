@@ -8,8 +8,8 @@ BDFusion 实时推理速度模拟：按真实时钟推进源帧，输出推理�
 
 使用:
   python stream_realtime_sim.py \
-      --rgb_video test_videos/rgb_0_clip/smoke_0_40-80_rgb.mp4 \
-      --ir_video test_videos/ir_0_clip/smoke_0_40-80_thermal.mp4 \
+      --rgb_video data/test_videos/rgb_0_clip/smoke_0_40-80_rgb.mp4 \
+      --ir_video data/test_videos/ir_0_clip/smoke_0_40-80_thermal.mp4 \
       --out_video experiments/demo_output_video/ntu4d_realtime.mp4
 """
 

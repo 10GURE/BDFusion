@@ -208,8 +208,8 @@ def main():
     parser = argparse.ArgumentParser(
         description="多任务类型推理脚本 — 自动扫描任务目录，分组保存融合结果"
     )
-    parser.add_argument("--test_dir", default="./test_imgs", type=str,
-                        help="测试集根目录，包含各任务类型子目录 (默认: ./test_imgs)")
+    parser.add_argument("--test_dir", default="./data/test_imgs", type=str,
+                        help="测试集根目录，包含各任务类型子目录 (默认: ./data/test_imgs)")
     parser.add_argument("--output_dir", default="./experiments/output", type=str,
                         help="输出根目录，结果按任务类型分组 (默认: ./experiments/output)")
     parser.add_argument("--config", type=str,

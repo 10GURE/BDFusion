@@ -15,8 +15,6 @@ models/
 *.pth
 *.pt
 data/
-test_imgs/
-test_videos/
 experiments/
 
 # ── 日志 ──
