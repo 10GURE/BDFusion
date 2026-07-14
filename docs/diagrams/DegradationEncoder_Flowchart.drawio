@@ -1,0 +1,420 @@
+<mxfile host="app.diagrams.net" modified="2026-01-13T12:00:00.000Z" agent="Mozilla/5.0" version="21.0.0" type="device">
+  <diagram name="DegradationEncoder" id="degradation_encoder">
+    <mxGraphModel dx="1600" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1800" pageHeight="1400" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Title -->
+        <mxCell id="title" value="&lt;b&gt;DualStreamDegradationEncoder 详细流程图&lt;/b&gt;&lt;br&gt;退化感知模块 - 生成 Task Tokens" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;" vertex="1" parent="1">
+          <mxGeometry x="550" y="20" width="500" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- ==================== 输入部分 ==================== -->
+        <mxCell id="input_section" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="90" width="1200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="input_label" value="&lt;b&gt;输入&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="210" y="95" width="60" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="rgb_input" value="&lt;b&gt;退化 RGB&lt;/b&gt;&lt;br&gt;[B, 3, 256, 256]" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="350" y="110" width="140" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="ir_input" value="&lt;b&gt;退化 IR&lt;/b&gt;&lt;br&gt;[B, 3, 256, 256]" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="1110" y="110" width="140" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- ==================== RGB Encoder 部分 ==================== -->
+        <mxCell id="rgb_encoder_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;dashed=1;opacity=30;" vertex="1" parent="1">
+          <mxGeometry x="40" y="200" width="680" height="750" as="geometry" />
+        </mxCell>
+        <mxCell id="rgb_encoder_title" value="&lt;b&gt;RGB Encoder&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="300" y="205" width="120" height="25" as="geometry" />
+        </mxCell>
+        
+        <!-- RGB CNN Backbone -->
+        <mxCell id="rgb_backbone_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="240" width="640" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="rgb_backbone_label" value="&lt;b&gt;CNN Backbone (4层卷积下采样)&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="270" y="245" width="200" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="rgb_conv1" value="&lt;b&gt;Conv Layer 1&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;Conv2d(3→64, k=4, s=2)&lt;br&gt;BN → LeakyReLU&lt;br&gt;[B,64,128,128]&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="80" y="280" width="130" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="rgb_conv2" value="&lt;b&gt;Conv Layer 2&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;Conv2d(64→128, k=4, s=2)&lt;br&gt;BN → LeakyReLU&lt;br&gt;[B,128,64,64]&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="230" y="280" width="130" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="rgb_conv3" value="&lt;b&gt;Conv Layer 3&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;Conv2d(128→256, k=4, s=2)&lt;br&gt;BN → LeakyReLU&lt;br&gt;[B,256,32,32]&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="380" y="280" width="130" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="rgb_conv4" value="&lt;b&gt;Conv Layer 4&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;Conv2d(256→256, k=4, s=2)&lt;br&gt;BN → LeakyReLU&lt;br&gt;[B,256,16,16]&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="530" y="280" width="130" height="70" as="geometry" />
+        </mxCell>
+        
+        <!-- RGB Backbone arrows -->
+        <mxCell id="rgb_bb_arr1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="rgb_conv1" target="rgb_conv2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rgb_bb_arr2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="rgb_conv2" target="rgb_conv3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rgb_bb_arr3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="rgb_conv3" target="rgb_conv4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="rgb_backbone_out" value="&lt;b&gt;backbone_feat&lt;/b&gt;&lt;br&gt;[B, 256, 16, 16]" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="300" y="370" width="140" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="rgb_bb_out_arr" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="rgb_conv4" target="rgb_backbone_out">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="595" y="395" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- RGB Multi-Scale Feature -->
+        <mxCell id="rgb_multiscale_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="450" width="400" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="rgb_multiscale_label" value="&lt;b&gt;Multi-Scale Feature Extraction&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;捕获不同尺度的退化特征&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="150" y="455" width="220" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="rgb_scale1" value="&lt;b&gt;3×3 Conv&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;小感受野&lt;br&gt;检测噪声&lt;br&gt;→ Pool&lt;br&gt;[B, 64]&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="80" y="495" width="100" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="rgb_scale2" value="&lt;b&gt;5×5 Conv&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;中感受野&lt;br&gt;检测模糊&lt;br&gt;→ Pool&lt;br&gt;[B, 64]&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="200" y="495" width="100" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="rgb_scale3" value="&lt;b&gt;7×7 Conv&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;大感受野&lt;br&gt;检测雾霾&lt;br&gt;→ Pool&lt;br&gt;[B, 64]&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="320" y="495" width="100" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- RGB Global Pool -->
+        <mxCell id="rgb_global_pool" value="&lt;b&gt;Global Avg Pool&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;AdaptiveAvgPool2d&lt;br&gt;[B, 256]&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="520" y="495" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- RGB Concat -->
+        <mxCell id="rgb_concat" value="&lt;b&gt;Concat&lt;/b&gt;&lt;br&gt;[B, 64×3 + 256]&lt;br&gt;= [B, 448]" style="rhombus;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="290" y="640" width="150" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- RGB Projector -->
+        <mxCell id="rgb_projector_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="750" width="640" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="rgb_projector_label" value="&lt;b&gt;Projector (MLP)&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="320" y="755" width="100" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="rgb_proj1" value="Linear&lt;br&gt;448→512" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="80" y="780" width="80" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="rgb_proj2" value="LayerNorm&lt;br&gt;512" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="180" y="780" width="80" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="rgb_proj3" value="GELU" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="280" y="780" width="80" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="rgb_proj4" value="Dropout&lt;br&gt;0.1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="380" y="780" width="80" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="rgb_proj5" value="Linear&lt;br&gt;512→1024" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="480" y="780" width="80" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="rgb_proj6" value="Reshape&lt;br&gt;→[B,4,256]" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="580" y="780" width="80" height="45" as="geometry" />
+        </mxCell>
+        
+        <!-- RGB Projector arrows -->
+        <mxCell id="rgb_pj_arr1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="rgb_proj1" target="rgb_proj2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rgb_pj_arr2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="rgb_proj2" target="rgb_proj3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rgb_pj_arr3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="rgb_proj3" target="rgb_proj4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rgb_pj_arr4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="rgb_proj4" target="rgb_proj5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rgb_pj_arr5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="rgb_proj5" target="rgb_proj6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- RGB Output -->
+        <mxCell id="rgb_tokens_out" value="&lt;b&gt;rgb_tokens&lt;/b&gt;&lt;br&gt;[B, 4, 256]" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="300" y="870" width="140" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- RGB Internal Arrows -->
+        <mxCell id="rgb_input_arr" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="rgb_input" target="rgb_conv1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="420" y="180" />
+              <mxPoint x="145" y="180" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rgb_bb_to_ms" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="rgb_backbone_out" target="rgb_scale2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rgb_bb_to_gp" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="rgb_backbone_out" target="rgb_global_pool">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="470" y="395" />
+              <mxPoint x="470" y="525" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rgb_ms_to_cat" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="rgb_scale2" target="rgb_concat">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="250" y="620" />
+              <mxPoint x="365" y="620" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rgb_gp_to_cat" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="rgb_global_pool" target="rgb_concat">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="580" y="620" />
+              <mxPoint x="365" y="620" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rgb_cat_to_proj" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="rgb_concat" target="rgb_proj1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="120" y="680" />
+              <mxPoint x="120" y="740" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rgb_proj_to_out" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="rgb_proj6" target="rgb_tokens_out">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="620" y="860" />
+              <mxPoint x="370" y="860" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- ==================== IR Encoder 部分 ==================== -->
+        <mxCell id="ir_encoder_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;dashed=1;opacity=30;" vertex="1" parent="1">
+          <mxGeometry x="880" y="200" width="680" height="750" as="geometry" />
+        </mxCell>
+        <mxCell id="ir_encoder_title" value="&lt;b&gt;IR Encoder&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;(结构与 RGB Encoder 相同，权重独立)&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="205" width="200" height="35" as="geometry" />
+        </mxCell>
+        
+        <!-- IR CNN Backbone (simplified) -->
+        <mxCell id="ir_backbone_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="900" y="250" width="640" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="ir_backbone_label" value="&lt;b&gt;CNN Backbone&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;Conv(3→64) → Conv(64→128) → Conv(128→256) → Conv(256→256)&lt;br&gt;输出: [B, 256, 16, 16]&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1070" y="270" width="300" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- IR Multi-Scale -->
+        <mxCell id="ir_multiscale_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4c4e8;strokeColor=#9673a6;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="900" y="380" width="300" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="ir_multiscale_label" value="&lt;b&gt;Multi-Scale Feature&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;3×3 + 5×5 + 7×7 Conv → Pool&lt;br&gt;输出: [B, 192]&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="970" y="400" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- IR Global Pool -->
+        <mxCell id="ir_global_pool" value="&lt;b&gt;Global Pool&lt;/b&gt;&lt;br&gt;[B, 256]" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="1250" y="400" width="100" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- IR Concat -->
+        <mxCell id="ir_concat" value="&lt;b&gt;Concat&lt;/b&gt;&lt;br&gt;[B, 448]" style="rhombus;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="1105" y="510" width="100" height="70" as="geometry" />
+        </mxCell>
+        
+        <!-- IR Projector -->
+        <mxCell id="ir_projector_box" value="&lt;b&gt;Projector (MLP)&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;Linear(448→512) → LN → GELU → Dropout → Linear(512→1024) → Reshape&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="620" width="310" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- IR Output -->
+        <mxCell id="ir_tokens_out" value="&lt;b&gt;ir_tokens&lt;/b&gt;&lt;br&gt;[B, 4, 256]" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1085" y="700" width="140" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- IR Internal Arrows -->
+        <mxCell id="ir_input_arr" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="ir_input" target="ir_backbone_box">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ir_bb_to_ms" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="ir_backbone_box" target="ir_multiscale_box">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ir_bb_to_gp" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="ir_backbone_box" target="ir_global_pool">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ir_ms_to_cat" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="ir_multiscale_box" target="ir_concat">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ir_gp_to_cat" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="ir_global_pool" target="ir_concat">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ir_cat_to_proj" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="ir_concat" target="ir_projector_box">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ir_proj_to_out" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="ir_projector_box" target="ir_tokens_out">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- ==================== Fusion Attention 部分 ==================== -->
+        <mxCell id="fusion_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="480" y="980" width="640" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="fusion_title" value="&lt;b&gt;Fusion Attention (Cross-Attention)&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:10px&quot;&gt;RGB tokens attend to IR tokens, 融合两个模态的退化信息&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="620" y="990" width="360" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- Q, K, V -->
+        <mxCell id="fusion_q" value="&lt;b&gt;Q&lt;/b&gt;&lt;br&gt;Linear(rgb_tokens)&lt;br&gt;[B, 4, 256]" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="510" y="1040" width="130" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="fusion_k" value="&lt;b&gt;K&lt;/b&gt;&lt;br&gt;Linear(ir_tokens)&lt;br&gt;[B, 4, 256]" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="735" y="1040" width="130" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="fusion_v" value="&lt;b&gt;V&lt;/b&gt;&lt;br&gt;Linear(ir_tokens)&lt;br&gt;[B, 4, 256]" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="960" y="1040" width="130" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Attention Computation -->
+        <mxCell id="attn_compute" value="&lt;b&gt;Attention&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:10px&quot;&gt;Attn = Softmax(Q @ K&lt;sup&gt;T&lt;/sup&gt; / √d)&lt;br&gt;ir_info = Attn @ V&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="680" y="1130" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Residual -->
+        <mxCell id="residual" value="&lt;b&gt;Residual Add&lt;/b&gt;&lt;br&gt;fused = rgb_tokens + ir_info" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="680" y="1200" width="160" height="45" as="geometry" />
+        </mxCell>
+        
+        <!-- Fusion Arrows -->
+        <mxCell id="fusion_q_arr" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="fusion_q" target="attn_compute">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fusion_k_arr" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="fusion_k" target="attn_compute">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fusion_v_arr" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="fusion_v" target="attn_compute">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="attn_to_res" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="attn_compute" target="residual">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- ==================== Final Output ==================== -->
+        <mxCell id="final_output" value="&lt;b&gt;task_tokens&lt;/b&gt;&lt;br&gt;[B, 4, 256]&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;4个 token 描述整体退化类型&lt;/font&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=#00ff00;strokeColor=#006600;strokeWidth=3;" vertex="1" parent="1">
+          <mxGeometry x="710" y="1290" width="180" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Final Arrows -->
+        <mxCell id="rgb_to_fusion" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#d6b656;" edge="1" parent="1" source="rgb_tokens_out" target="fusion_q">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="370" y="960" />
+              <mxPoint x="575" y="960" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ir_to_fusion_k" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#9673a6;" edge="1" parent="1" source="ir_tokens_out" target="fusion_k">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1155" y="780" />
+              <mxPoint x="870" y="780" />
+              <mxPoint x="870" y="1010" />
+              <mxPoint x="800" y="1010" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ir_to_fusion_v" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#9673a6;" edge="1" parent="1" source="ir_tokens_out" target="fusion_v">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1155" y="780" />
+              <mxPoint x="1155" y="1010" />
+              <mxPoint x="1025" y="1010" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="res_to_final" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" edge="1" parent="1" source="residual" target="final_output">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- ==================== Legend ==================== -->
+        <mxCell id="legend_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="1400" y="90" width="180" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="legend_title" value="&lt;b&gt;图例 Legend&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1440" y="95" width="100" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="leg1" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="1410" y="120" width="30" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="leg1_text" value="RGB 相关" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1450" y="120" width="80" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="leg2" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="1410" y="145" width="30" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="leg2_text" value="IR 相关" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1450" y="145" width="80" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="leg3" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="1410" y="170" width="30" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="leg3_text" value="多尺度特征" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1450" y="170" width="80" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="leg4" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="1410" y="195" width="30" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="leg4_text" value="MLP 投影" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1450" y="195" width="80" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="leg5" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="1410" y="220" width="30" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="leg5_text" value="池化/注意力" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1450" y="220" width="80" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="leg6" value="" style="rhombus;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="1410" y="245" width="30" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="leg6_text" value="特征融合" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1450" y="245" width="80" height="20" as="geometry" />
+        </mxCell>
+        
+        <!-- ==================== Notes ==================== -->
+        <mxCell id="notes_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="1200" y="1040" width="370" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="notes_title" value="&lt;b&gt;关键设计说明&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1320" y="1045" width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="notes_content" value="&lt;div style=&quot;text-align: left; font-size: 10px;&quot;&gt;&#xa;&lt;b&gt;1. 双流独立编码&lt;/b&gt;&lt;br&gt;RGB/IR 各有独立的 encoder，可学习模态特有的退化特征&lt;br&gt;&lt;br&gt;&#xa;&lt;b&gt;2. 多尺度特征&lt;/b&gt;&lt;br&gt;3×3/5×5/7×7 卷积捕获不同尺度的退化（噪声/模糊/雾霾）&lt;br&gt;&lt;br&gt;&#xa;&lt;b&gt;3. Cross-Attention 融合&lt;/b&gt;&lt;br&gt;RGB 作为 Query，IR 作为 Key/Value&lt;br&gt;让 RGB 特征能够查询 IR 中的补充信息&lt;br&gt;&lt;br&gt;&#xa;&lt;b&gt;4. 输出 4 个 Tokens&lt;/b&gt;&lt;br&gt;每个 token 256 维，共同描述整体退化类型&#xa;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="1210" y="1070" width="350" height="160" as="geometry" />
+        </mxCell>
+        
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

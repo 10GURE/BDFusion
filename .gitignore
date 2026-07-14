@@ -1,0 +1,47 @@
+# ── Python ──
+__pycache__/
+*.py[cod]
+*.pyo
+*.so
+*.egg-info/
+dist/
+build/
+
+# ── 大文件：模型 / 数据 / 实验产物（不上传 GitHub）──
+checkpoint/
+informationSynthesis/checkpoints/
+models/
+*.ckpt
+*.pth
+*.pt
+data/
+test_imgs/
+test_videos/
+experiments/
+
+# ── 日志 ──
+logs/
+
+# ── 论文（独立于代码工程，含大 PDF）──
+papers/
+
+# ── IDE 个人配置 ──
+.idea/
+.vscode/
+
+# ── LaTeX 编译产物 ──
+*.aux
+*.bbl
+*.blg
+*.fls
+*.out
+*.toc
+*.fdb_latexmk
+*.synctex.gz
+*.log
+
+# ── 临时文件 ──
+.tmp_note
+*.swp
+*.swo
+*~

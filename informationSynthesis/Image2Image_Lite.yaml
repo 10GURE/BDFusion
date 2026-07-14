@@ -1,0 +1,120 @@
+model:
+  base_learning_rate: 2.0e-06
+  target: informationSynthesis.I2Iddpm.LatentDiffusion
+  params:
+    linear_start: 0.0015
+    linear_end: 0.0195
+    num_timesteps_cond: 1
+    log_every_t: 200
+    timesteps: 1000
+    first_stage_key: image
+    image_size: 64
+    channels: 4
+    concat_mode: True
+    ir_loss_weight: 0.1
+    use_degradation_encoder: true
+    degradation_encoder_type: 'dual_stream'
+    unet_config:
+      target: informationSynthesis.I2Iopenaimodel.UNetModel
+      params:
+        image_size: 64
+        in_channels: 9
+        out_channels: 3
+        model_channels: 128
+        context_channels: 128
+        cross_attention_resolutions:
+        - 8
+        - 4
+        - 2
+        attention_resolutions:
+        - 8
+        - 4
+        - 2
+        num_res_blocks: 1
+        channel_mult:
+        - 1
+        - 1
+        - 2
+        - 3
+        num_heads: 4
+        resblock_updown: true
+    encoder_config:
+      target: informationSynthesis.I2Iopenaimodel.FeatureEncoder
+      params:
+        image_size: 64
+        in_channels: 3
+        out_channels: 4
+        model_channels: 128
+        attention_resolutions:
+        - 8
+        num_res_blocks: 1
+        channel_mult:
+        - 1
+        - 1
+        - 2
+        - 3
+        num_heads: 4
+        resblock_updown: true
+    first_stage_config:
+      target: ldm.models.autoencoder.VQModelInterface
+      params:
+        ckpt_path: models/first_stage_models/vq-f4/model.ckpt
+        embed_dim: 3
+        n_embed: 8192
+        ddconfig:
+          double_z: false
+          z_channels: 3
+          resolution: 128
+          in_channels: 3
+          out_ch: 3
+          ch: 128
+          ch_mult:
+          - 1
+          - 2
+          - 4
+          num_res_blocks: 2
+          attn_resolutions: [ ]
+          dropout: 0.0
+        lossconfig:
+          target: torch.nn.Identity
+    cond_stage_config: __is_first_stage__
+data:
+  target: train_model.DataModuleFromConfig
+  params:
+    batch_size: 8
+    num_workers: 8
+    wrap: false
+    train:
+      target: informationSynthesis.dataset.DegradedFusionDatasetTrain
+      params:
+        rgb_root: './data/msrs_bd-f/rgb_degraded/train/'
+        ir_root: './data/msrs_bd-f/ir_degraded/train/'
+        clean_root: './data/msrs_bd-f/gt_clean/train/'
+        ir_clean_root: './data/msrs_bd-f/ir_clean/train/'
+        size: 256
+        random_crop: True
+        apply_rgb_aug: False
+        apply_ir_aug: False
+        extra_noise: False
+    validation:
+      target: informationSynthesis.dataset.DegradedFusionDatasetVal
+      params:
+        rgb_root: './data/msrs_bd-f/rgb_degraded/val/'
+        ir_root: './data/msrs_bd-f/ir_degraded/val/'
+        clean_root: './data/msrs_bd-f/gt_clean/val/'
+        ir_clean_root: './data/msrs_bd-f/ir_clean/val/'
+        size: 256
+
+lightning:
+  callbacks:
+    image_logger:
+      target: train_model.ImageLogger
+      params:
+        batch_frequency: 1000
+        max_images: 8
+        increase_log_steps: False
+  trainer:
+    benchmark: True
+    check_val_every_n_epoch: 5
+    gpus: 0,
+    max_epochs: 5

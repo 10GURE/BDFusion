@@ -1,0 +1,304 @@
+<mxfile host="65bd71144e">
+    <diagram name="Overall Architecture" id="overall">
+        <mxGraphModel dx="347" dy="434" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="title" value="&lt;b&gt;BDFusion: Visible-Infrared Image Synthesis&lt;/b&gt;&lt;br&gt;Blind All-in-One 图像融合 &amp; 去退化复原系统" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;" parent="1" vertex="1">
+                    <mxGeometry x="500" y="20" width="500" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="input_section" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;dashed=1;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="100" width="300" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="input_label" value="&lt;b&gt;输入数据&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="140" y="105" width="100" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="rgb_degraded" value="RGB 退化图像&lt;br&gt;[B, 3, 256, 256]" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+                    <mxGeometry x="60" y="140" width="120" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="ir_degraded" value="IR 退化图像&lt;br&gt;[B, 3, 256, 256]" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1">
+                    <mxGeometry x="200" y="140" width="120" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="gt_clean" value="GT 清晰图像&lt;br&gt;[B, 3, 256, 256]" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+                    <mxGeometry x="60" y="210" width="120" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="ir_clean" value="IR 清晰图像&lt;br&gt;[B, 3, 256, 256]" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
+                    <mxGeometry x="200" y="210" width="120" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="deg_encoder_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;dashed=1;" parent="1" vertex="1">
+                    <mxGeometry x="400" y="100" width="350" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="deg_encoder_label" value="&lt;b&gt;DualStreamDegradationEncoder&lt;/b&gt;&lt;br&gt;(盲退化感知模块)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="460" y="105" width="230" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="rgb_encoder" value="RGB Encoder&lt;br&gt;&lt;font style=&quot;font-size:10px&quot;&gt;CNN Backbone&lt;br&gt;Conv→BN→ReLU&lt;br&gt;GlobalPool→MLP&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+                    <mxGeometry x="420" y="140" width="120" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="ir_encoder" value="IR Encoder&lt;br&gt;&lt;font style=&quot;font-size:10px&quot;&gt;CNN Backbone&lt;br&gt;Conv→BN→ReLU&lt;br&gt;GlobalPool→MLP&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1">
+                    <mxGeometry x="610" y="140" width="120" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="attn_fusion" value="Cross-Attention&lt;br&gt;Fusion&lt;br&gt;&lt;font style=&quot;font-size:10px&quot;&gt;RGB attend to IR&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" parent="1" vertex="1">
+                    <mxGeometry x="515" y="240" width="120" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="task_tokens" value="&lt;b&gt;task_tokens&lt;/b&gt;&lt;br&gt;[B, 4, 256]" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffcc99;strokeColor=#d79b00;" parent="1" vertex="1">
+                    <mxGeometry x="790" y="235" width="100" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="rgb_degraded" target="rgb_encoder" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="120" y="70"/>
+                            <mxPoint x="480" y="70"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="arrow2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="ir_degraded" target="ir_encoder" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="260" y="90"/>
+                            <mxPoint x="670" y="90"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="arrow3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="rgb_encoder" target="attn_fusion" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="480" y="220"/>
+                            <mxPoint x="575" y="220"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="arrow4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="ir_encoder" target="attn_fusion" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="670" y="220"/>
+                            <mxPoint x="575" y="220"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="arrow5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="attn_fusion" target="task_tokens" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="vqvae_enc_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;dashed=1;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="350" width="300" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="vqvae_enc_label" value="&lt;b&gt;VQ-VAE Encoder&lt;/b&gt;&lt;br&gt;(First Stage - 图像压缩)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="100" y="355" width="180" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="vqvae_encoder" value="Encoder&lt;br&gt;&lt;font style=&quot;font-size:10px&quot;&gt;256→128→64→32&lt;br&gt;4x下采样&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+                    <mxGeometry x="70" y="395" width="100" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="vq_quantize" value="VQ&lt;br&gt;Quantizer&lt;br&gt;&lt;font style=&quot;font-size:10px&quot;&gt;codebook&lt;br&gt;8192&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+                    <mxGeometry x="190" y="395" width="80" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="latent_z" value="&lt;b&gt;z (latent)&lt;/b&gt;&lt;br&gt;[B, 4, 64, 64]" style="ellipse;whiteSpace=wrap;html=1;fillColor=#b3d9ff;strokeColor=#0066cc;" parent="1" vertex="1">
+                    <mxGeometry x="290" y="395" width="100" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="gt_clean" target="vqvae_encoder" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="vqvae_encoder" target="vq_quantize" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="vq_quantize" target="latent_z" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="diffusion_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;dashed=1;" parent="1" vertex="1">
+                    <mxGeometry x="400" y="350" width="500" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="diffusion_label" value="&lt;b&gt;Diffusion Process&lt;/b&gt;&lt;br&gt;(训练: 加噪 / 推理: DDIM去噪)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="540" y="355" width="220" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="z_clean" value="z_clean&lt;br&gt;[B,4,64,64]" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#b3d9ff;strokeColor=#0066cc;" parent="1" vertex="1">
+                    <mxGeometry x="420" y="400" width="90" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="noise_add" value="q(z_t|z_0)&lt;br&gt;&lt;font style=&quot;font-size:10px&quot;&gt;加噪&lt;br&gt;t~U[1,1000]&lt;/font&gt;" style="rhombus;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
+                    <mxGeometry x="540" y="390" width="100" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="z_noisy" value="z_noisy&lt;br&gt;[B,4,64,64]" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffcccc;strokeColor=#b85450;" parent="1" vertex="1">
+                    <mxGeometry x="680" y="400" width="90" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="timestep" value="&lt;b&gt;t&lt;/b&gt;&lt;br&gt;timestep" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
+                    <mxGeometry x="800" y="395" width="80" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="latent_z" target="z_clean" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="z_clean" target="noise_add" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="noise_add" target="z_noisy" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="unet_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6e6ff;strokeColor=#6666ff;dashed=1;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="520" width="860" height="280" as="geometry"/>
+                </mxCell>
+                <mxCell id="unet_label" value="&lt;b&gt;UNet Model&lt;/b&gt; (I2Iopenaimodel.py)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=14;" parent="1" vertex="1">
+                    <mxGeometry x="380" y="525" width="200" height="25" as="geometry"/>
+                </mxCell>
+                <mxCell id="unet_input" value="UNet Input&lt;br&gt;&lt;b&gt;[z; rgb; ir]&lt;/b&gt;&lt;br&gt;[B, 9, 64, 64]" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ccccff;strokeColor=#6666ff;" parent="1" vertex="1">
+                    <mxGeometry x="60" y="575" width="100" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="dma1" value="DualModal&lt;br&gt;SparseAttn&lt;br&gt;&lt;font style=&quot;font-size:8px&quot;&gt;RGB+IR特征&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffcc99;strokeColor=#d79b00;" parent="1" vertex="1">
+                    <mxGeometry x="380" y="870" width="70" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="dma2" value="DualModal&lt;br&gt;SparseAttn&lt;br&gt;&lt;font style=&quot;font-size:8px&quot;&gt;RGB+IR特征&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffcc99;strokeColor=#d79b00;" parent="1" vertex="1">
+                    <mxGeometry x="515" y="870" width="70" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="task_cross_attn" value="&lt;b&gt;TaskCrossAttention&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;Q = UNet特征&lt;br&gt;K,V = [ctx; task_tokens]&lt;br&gt;退化感知引导&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffcc99;strokeColor=#d79b00;" parent="1" vertex="1">
+                    <mxGeometry x="180" y="710" width="140" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="noise_pred" value="&lt;b&gt;noise_pred&lt;/b&gt;&lt;br&gt;[B, 4, 64, 64]&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;预测噪声&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ccffcc;strokeColor=#00cc00;" parent="1" vertex="1">
+                    <mxGeometry x="60" y="720" width="100" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="uarrow1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="unet_input" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="200" y="605" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="uarrow2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" target="res2" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="270" y="605" as="sourcePoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="uarrow3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" target="res3" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="360" y="605" as="sourcePoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="uarrow4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" target="res4" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="450" y="605" as="sourcePoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="uarrow5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" target="middle" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="540" y="605" as="sourcePoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="uarrow6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" target="dec1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="840" y="680" as="sourcePoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="uarrow7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" target="dec2" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="700" y="745" as="sourcePoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="uarrow8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" target="dec3" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="610" y="745" as="sourcePoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="uarrow9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" target="dec4" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="520" y="745" as="sourcePoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="uarrow10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" target="task_cross_attn" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="430" y="745" as="sourcePoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="uarrow11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="task_cross_attn" target="noise_pred" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="task_arrow" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#d79b00;strokeWidth=2;dashed=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="task_tokens" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="910" y="265"/>
+                            <mxPoint x="910" y="850"/>
+                        </Array>
+                        <mxPoint x="1010" y="850" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="znoisy_arrow" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="z_noisy" target="unet_input" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="725" y="490"/>
+                            <mxPoint x="110" y="490"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="loss_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ccffcc;strokeColor=#00cc00;dashed=1;" parent="1" vertex="1">
+                    <mxGeometry x="950" y="360" width="400" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="loss_label" value="&lt;b&gt;Loss Computation&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;" parent="1" vertex="1">
+                    <mxGeometry x="1090" y="365" width="120" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="main_loss" value="&lt;b&gt;主损失&lt;/b&gt;&lt;br&gt;L = ||ε_pred - ε_gt||²&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;MSE Loss&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ccffcc;strokeColor=#00cc00;" parent="1" vertex="1">
+                    <mxGeometry x="970" y="395" width="130" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="ir_loss" value="&lt;b&gt;IR监督损失&lt;/b&gt;&lt;br&gt;L_ir = ||Gray - IR_clean||₁&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;weight=0.1&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
+                    <mxGeometry x="1120" y="395" width="150" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="vqvae_dec_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;dashed=1;" parent="1" vertex="1">
+                    <mxGeometry x="950" y="520" width="400" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="vqvae_dec_label" value="&lt;b&gt;VQ-VAE Decoder (推理输出)&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;" parent="1" vertex="1">
+                    <mxGeometry x="1050" y="525" width="200" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="z_final" value="z_0&lt;br&gt;[B,4,64,64]&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;去噪后&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#b3d9ff;strokeColor=#0066cc;" parent="1" vertex="1">
+                    <mxGeometry x="970" y="555" width="80" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="vq_decoder" value="Decoder&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;32→64→128→256&lt;br&gt;4x上采样&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+                    <mxGeometry x="1070" y="555" width="100" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="output_img" value="&lt;b&gt;融合输出&lt;/b&gt;&lt;br&gt;[B,3,256,256]&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;去退化结果&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#00ff00;strokeColor=#006600;" parent="1" vertex="1">
+                    <mxGeometry x="1190" y="555" width="100" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="dec_arrow1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="z_final" target="vq_decoder" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="dec_arrow2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="vq_decoder" target="output_img" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="legend_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;dashed=1;" parent="1" vertex="1">
+                    <mxGeometry x="950" y="100" width="200" height="180" as="geometry"/>
+                </mxCell>
+                <mxCell id="legend_title" value="&lt;b&gt;图例 Legend&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;" parent="1" vertex="1">
+                    <mxGeometry x="1000" y="105" width="100" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="leg1" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+                    <mxGeometry x="960" y="130" width="30" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="leg1_text" value="RGB相关" style="text;html=1;strokeColor=none;fillColor=none;align=left;" parent="1" vertex="1">
+                    <mxGeometry x="1000" y="130" width="80" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="leg2" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1">
+                    <mxGeometry x="960" y="155" width="30" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="leg2_text" value="IR相关" style="text;html=1;strokeColor=none;fillColor=none;align=left;" parent="1" vertex="1">
+                    <mxGeometry x="1000" y="155" width="80" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="leg3" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffcc99;strokeColor=#d79b00;" parent="1" vertex="1">
+                    <mxGeometry x="960" y="180" width="30" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="leg3_text" value="退化感知模块" style="text;html=1;strokeColor=none;fillColor=none;align=left;" parent="1" vertex="1">
+                    <mxGeometry x="1000" y="180" width="100" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="leg4" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6e6ff;strokeColor=#6666ff;" parent="1" vertex="1">
+                    <mxGeometry x="960" y="205" width="30" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="leg4_text" value="UNet组件" style="text;html=1;strokeColor=none;fillColor=none;align=left;" parent="1" vertex="1">
+                    <mxGeometry x="1000" y="205" width="80" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="leg5" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+                    <mxGeometry x="960" y="230" width="30" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="leg5_text" value="VQ-VAE" style="text;html=1;strokeColor=none;fillColor=none;align=left;" parent="1" vertex="1">
+                    <mxGeometry x="1000" y="230" width="80" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="leg6" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#b3d9ff;strokeColor=#0066cc;" parent="1" vertex="1">
+                    <mxGeometry x="960" y="255" width="30" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="leg6_text" value="潜在表示" style="text;html=1;strokeColor=none;fillColor=none;align=left;" parent="1" vertex="1">
+                    <mxGeometry x="1000" y="255" width="80" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="" style="shape=trapezoid;perimeter=trapezoidPerimeter;whiteSpace=wrap;html=1;fixedSize=1;rotation=90;" vertex="1" parent="1">
+                    <mxGeometry x="380" y="595" width="120" height="115" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
