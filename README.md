@@ -1,13 +1,15 @@
-# BDFusion: Blind Degradation-Aware Visible-Infrared Fusion
+# BDFusion: Diffusion-Based All-in-One Framework for Visible-Infrared Image Fusion under Blind Degradations
 
-Official implementation of **BDFusion** — a blind all-in-one diffusion model for severe low-light image enhancement using RGB + Infrared (IR) fusion with degradation-aware conditioning.
+Official implementation of **BDFusion** — a unified latent diffusion framework for adaptive infrared-visible image fusion that operates under blind degradations without requiring explicit degradation labels or priors.
+
+BDFusion incorporates a **Dual-Stream Degradation Encoder (DSDE)** that implicitly infers degradation representations from both modalities and produces unified task tokens. These tokens guide the fusion process through a task-conditioned dual-modal denoising network, enabling a single model to handle diverse degradation conditions including rain, snow, and fog in both daytime and low-light scenarios.
 
 ## Features
 
-- **Blind Degradation Sensing** — automatically extracts degradation patterns from input images; no task-ID labels needed
-- **RGB+IR Fusion** — dual-stream architecture fuses visible and infrared modalities via cross-attention
+- **Blind Degradation Fusion** — no degradation labels, categories, or text prompts required; DSDE automatically infers degradation cues from image content
+- **Dual-Stream Architecture** — cross-attention over RGB + IR features ensures complementary information from both modalities is fully exploited
+- **All-in-One** — a single model handles six degradation scenarios: rain, snow, fog × daytime, low-light
 - **Fast Inference** — DPM-Solver++ at 5 steps achieves ~258 ms/image (3.9 FPS) on RTX 3090
-- **All-in-One** — single model handles low-light, fog, rain, snow, and mixed degradations
 
 ## Project Structure
 
@@ -152,21 +154,14 @@ See `docs/diagrams/BDFusion_Architecture.drawio` for the full architecture diagr
 If you use this work, please cite:
 
 ```bibtex
-@article{bdfusion2025,
-  title={BDFusion: Visible and Infrared Information Synthesis for Severe Low-light Image Enhancement},
+@inproceedings{bdfusion2025,
+  title={BDFusion: Diffusion-Based All-in-One Framework for Visible-Infrared Image Fusion under Blind Degradations},
   author={},
-  journal={},
+  booktitle={},
   year={2025}
 }
 ```
 
 ## Acknowledgments
 
-This project builds upon [CompVis/latent-diffusion](https://github.com/CompVis/latent-diffusion), [Deformable-DETR](https://github.com/fundamentalvision/Deformable-DETR), and the original VIIS framework.
-
----
-
-### 5. Download MSRS Dataset
-
-Download the MSRS dataset from the [PIAFusion repository](https://github.com/Linfeng-Tang/PIAFusion)  
-and place it in the `./data/` directory.
+This project builds upon [CompVis/latent-diffusion](https://github.com/CompVis/latent-diffusion) and [Deformable-DETR](https://github.com/fundamentalvision/Deformable-DETR).
